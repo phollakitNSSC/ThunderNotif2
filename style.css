@@ -349,12 +349,97 @@ body, input, select, textarea, button, .main-header, .form-card, .category-card,
 .category-card ul {
     width: 90%;
     min-height: 120px;
-    background: #fff;
-    border-radius: 16px;
+    background: transparent !important;
+    border-radius: 0 !important;
     margin: 0 auto;
-    padding: 18px 12px;
-    box-shadow: 0 2px 8px #23272f11;
+    padding: 0 0 0 0;
+    box-shadow: none !important;
     list-style: none;
+}
+.category-card ul li {
+    background: rgba(255,255,255,0.85);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 14px 18px 12px 18px;
+    box-shadow: 0 2px 8px #23272f11;
+    font-size: 1em;
+    font-weight: 500;
+    color: #23242a;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    position: relative;
+    border: 1.5px solid #ececec;
+}
+.category-card ul li:last-child {
+    margin-bottom: 0;
+}
+.category-card.unfinished-card ul li {
+    border-left: 5px solid #fde047;
+}
+.category-card.overdue-card ul li {
+    border-left: 5px solid #fca5a5;
+}
+.category-card.finished-card ul li {
+    border-left: 5px solid #86efac;
+}
+.category-card ul li .task-title {
+    font-weight: 700;
+    font-size: 1.08em;
+    margin-right: 6px;
+}
+.category-card ul li .task-deadline {
+    font-size: 0.98em;
+    color: #6366f1;
+    margin-left: auto;
+    font-weight: 600;
+}
+.category-card ul li .task-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+}
+.category-card ul li .task-actions button {
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 0.98em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.category-card ul li .task-actions button:hover {
+    background: #818cf8;
+}
+
+/* Dark mode for category cards */
+.dark-mode .category-card {
+    background: #23242a;
+    color: #f5f5f5;
+}
+.dark-mode .category-card .cat-header {
+    color: #ffd600;
+}
+.dark-mode .category-card ul {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.dark-mode .category-card ul li {
+    background: rgba(35,36,42,0.95);
+    color: #f5f5f5;
+    border: 1.5px solid #23242a;
+}
+.dark-mode .category-card ul li .task-deadline {
+    color: #ffd600;
+}
+.dark-mode .category-card ul li .task-actions button {
+    background: #ffd600;
+    color: #23242a;
+}
+.dark-mode .category-card ul li .task-actions button:hover {
+    background: #ffe066;
 }
 .category-card.unfinished-card {
     background: #fffbe6;
@@ -378,8 +463,8 @@ body, input, select, textarea, button, .main-header, .form-card, .category-card,
     color: #ffd600;
 }
 .dark-mode .category-card ul {
-    background: #23242a;
-    color: #f5f5f5;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 .dark-mode .category-card.unfinished-card {
     background: #3c3a26;
