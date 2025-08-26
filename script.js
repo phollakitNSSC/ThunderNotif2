@@ -257,12 +257,12 @@ function checkNotifications() {
     if (Notification.permission !== 'granted') return;
     const now = new Date();
     tasks.forEach((task, idx) => {
-        if (!task.finished) {
+        if (!task.finished && task.deadline) {
             const deadline = new Date(task.deadline);
             const diff = deadline - now;
             if (diff > 0 && diff < 1000 * 60 * 60 * 24) { // within 24 hours
-                // Notify more frequently as deadline approaches
-                let interval = 1000 * 60; // default: 1 min
+                // Notify every 1 hour if more than 1 hour left, more frequently as deadline approaches
+                let interval = 1000 * 60 * 60; // default: 1 hour
                 if (diff < 1000 * 60 * 60) { // < 1 hour
                     if (diff < 1000 * 60) { // < 1 min
                         interval = 3000; // 3 sec
