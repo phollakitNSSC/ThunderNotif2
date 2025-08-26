@@ -112,7 +112,6 @@ function renderTasks() {
     const now = new Date();
         // Sort tasks by deadline ascending
         const sortedTasks = tasks.slice().sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
-        const sortedTasks = tasks.slice().sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
         sortedTasks.forEach((task, idx) => {
         const li = document.createElement('li');
             li.className = 'task-item adding';
@@ -178,33 +177,29 @@ function renderTasks() {
 }
 
 function finishTask(idx) {
-    const allLis = document.querySelectorAll('.task-item');
-    if (allLis[idx]) {
-        removeTaskWithAnimation(allLis[idx], () => {
-            tasks[idx].finished = true;
-            saveTasks();
-            renderTasks();
-        });
-    } else {
-        tasks[idx].finished = true;
-        saveTasks();
-        renderTasks();
-    }
+    tasks[idx].finished = true;
+    saveTasks();
+    renderTasks();
 }
 
 function deleteTask(idx) {
-    const allLis = document.querySelectorAll('.task-item');
-    if (allLis[idx]) {
-        removeTaskWithAnimation(allLis[idx], () => {
+    tasks.splice(idx, 1);
+    saveTasks();
+    renderTasks();
+        // Animate removal
+        const allLis = document.querySelectorAll('.task-item');
+        if (allLis[idx]) {
+            allLis[idx].classList.add('removing');
+            setTimeout(() => {
+                tasks.splice(idx, 1);
+                saveTasks();
+                renderTasks();
+            }, 300);
+        } else {
             tasks.splice(idx, 1);
             saveTasks();
             renderTasks();
-        });
-    } else {
-        tasks.splice(idx, 1);
-        saveTasks();
-        renderTasks();
-    }
+        }
 }
 
 taskForm.onsubmit = function(e) {
@@ -257,12 +252,12 @@ function checkNotifications() {
     if (Notification.permission !== 'granted') return;
     const now = new Date();
     tasks.forEach((task, idx) => {
-        if (!task.finished && task.deadline) {
+        if (!task.finished) {
             const deadline = new Date(task.deadline);
             const diff = deadline - now;
             if (diff > 0 && diff < 1000 * 60 * 60 * 24) { // within 24 hours
-                // Notify every 1 hour if more than 1 hour left, more frequently as deadline approaches
-                let interval = 1000 * 60 * 60; // default: 1 hour
+                // Notify more frequently as deadline approaches
+                let interval = 1000 * 60; // default: 1 min
                 if (diff < 1000 * 60 * 60) { // < 1 hour
                     if (diff < 1000 * 60) { // < 1 min
                         interval = 3000; // 3 sec

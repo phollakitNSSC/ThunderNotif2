@@ -110,31 +110,5 @@
     </div>
     <audio id="popSound" src="pop.mp3" preload="auto"></audio>
     <script src="script.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  var notifyBtn = document.querySelector('.header-notify-btn');
-  if (notifyBtn) {
-    notifyBtn.addEventListener('click', function() {
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('ThunderNotif', {
-          body: 'ถึงเวลาตรวจสอบงานของคุณ! (Check your schoolwork!)',
-          icon: 'https://phollakitnssc.github.io/ThunderNotif/favicon.ico'
-        });
-      } else if ('Notification' in window && Notification.permission !== 'denied') {
-        Notification.requestPermission().then(function(permission) {
-          if (permission === 'granted') {
-            new Notification('ThunderNotif', {
-              body: 'ถึงเวลาตรวจสอบงานของคุณ! (Check your schoolwork!)',
-              icon: 'https://phollakitnssc.github.io/ThunderNotif/favicon.ico'
-            });
-          }
-        });
-      } else {
-        alert('กรุณาอนุญาตการแจ้งเตือนในเบราว์เซอร์ (Please allow notifications in your browser)');
-      }
-    });
-  }
-});
-</script>
 </body>
 </html>
