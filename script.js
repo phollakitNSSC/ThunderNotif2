@@ -112,6 +112,7 @@ function renderTasks() {
     const now = new Date();
         // Sort tasks by deadline ascending
         const sortedTasks = tasks.slice().sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+        const sortedTasks = tasks.slice().sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
         sortedTasks.forEach((task, idx) => {
         const li = document.createElement('li');
             li.className = 'task-item adding';
@@ -177,29 +178,33 @@ function renderTasks() {
 }
 
 function finishTask(idx) {
-    tasks[idx].finished = true;
-    saveTasks();
-    renderTasks();
+    const allLis = document.querySelectorAll('.task-item');
+    if (allLis[idx]) {
+        removeTaskWithAnimation(allLis[idx], () => {
+            tasks[idx].finished = true;
+            saveTasks();
+            renderTasks();
+        });
+    } else {
+        tasks[idx].finished = true;
+        saveTasks();
+        renderTasks();
+    }
 }
 
 function deleteTask(idx) {
-    tasks.splice(idx, 1);
-    saveTasks();
-    renderTasks();
-        // Animate removal
-        const allLis = document.querySelectorAll('.task-item');
-        if (allLis[idx]) {
-            allLis[idx].classList.add('removing');
-            setTimeout(() => {
-                tasks.splice(idx, 1);
-                saveTasks();
-                renderTasks();
-            }, 300);
-        } else {
+    const allLis = document.querySelectorAll('.task-item');
+    if (allLis[idx]) {
+        removeTaskWithAnimation(allLis[idx], () => {
             tasks.splice(idx, 1);
             saveTasks();
             renderTasks();
-        }
+        });
+    } else {
+        tasks.splice(idx, 1);
+        saveTasks();
+        renderTasks();
+    }
 }
 
 taskForm.onsubmit = function(e) {
